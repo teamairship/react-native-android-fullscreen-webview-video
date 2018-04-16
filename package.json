@@ -1,19 +1,27 @@
 {
   "name": "react-native-android-fullscreen-webview-video",
   "version": "1.0.0",
-  "url":
-    "https://github.com/teamairship/react-native-android-fullscreen-webview-video",
-  "description": "",
+  "url": "https://github.com/teamairship/react-native-android-fullscreen-webview-video",
+  "description": "## Overview",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["react-native", "android", "webview", "fullscreen", "video"],
+  "keywords": [
+    "react-native",
+    "android",
+    "webview",
+    "fullscreen",
+    "video"
+  ],
   "repository": {
     "type": "git",
-    "url":
-      "https://github.com/teamairship/react-native-android-fullscreen-webview-video"
+    "url": "git+https://github.com/teamairship/react-native-android-fullscreen-webview-video.git"
   },
   "author": "Airship",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/teamairship/react-native-android-fullscreen-webview-video/issues"
+  },
+  "homepage": "https://github.com/teamairship/react-native-android-fullscreen-webview-video#readme"
 }
