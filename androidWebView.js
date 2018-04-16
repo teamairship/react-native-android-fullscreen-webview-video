@@ -1,4 +1,14 @@
-/* eslint-disable */
+// React Native version: 0.55.2
+
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @providesModule WebView
+ */
+'use strict';
 
 const ReactNative = require('react-native');
 const React = require('react');
@@ -14,19 +24,6 @@ const requireNativeComponent = ReactNative.requireNativeComponent;
 const resolveAssetSource = ReactNative.Image.resolveAssetSource;
 
 const RCT_WEBVIEW_REF = 'webview';
-
-const deprecatedPropType = (propType: any, explanation: string): any => {
-  return function validate(props, propName, componentName, ...rest) {
-    // Don't warn for native components.
-    if (!UIManager[componentName] && props[propName] !== undefined) {
-      console.warn(
-        `\`${propName}\` supplied to \`${componentName}\` has been deprecated. ${explanation}`
-      );
-    }
-
-    return propType(props, propName, componentName, ...rest);
-  };
-};
 
 const WebViewState = keyMirror({
   IDLE: null,
@@ -67,13 +64,6 @@ class WebView extends React.Component {
     onContentSizeChange: PropTypes.func,
     startInLoadingState: PropTypes.bool, // force WebView to show loadingView on first load
     style: ViewPropTypes.style,
-
-    html: deprecatedPropType(
-      PropTypes.string,
-      'Use the `source` prop instead.'
-    ),
-
-    url: deprecatedPropType(PropTypes.string, 'Use the `source` prop instead.'),
 
     /**
      * Loads static html or a uri (with optional headers) in the WebView.
@@ -196,12 +186,6 @@ class WebView extends React.Component {
      */
     saveFormDataDisabled: PropTypes.bool,
 
-    // New prop to set whitelist of domains to open internally in webview
-    openInternally: PropTypes.array,
-
-    // Custom tab toolbar colour
-    toolbarColour: PropTypes.string,
-
     /**
      * Override the native component used to render the WebView. Enables a custom native
      * WebView which uses the same JavaScript as the original WebView.
@@ -245,7 +229,7 @@ class WebView extends React.Component {
     startInLoadingState: true
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.props.startInLoadingState) {
       this.setState({ viewState: WebViewState.LOADING });
     }
@@ -267,7 +251,7 @@ class WebView extends React.Component {
         );
     } else if (this.state.viewState !== WebViewState.IDLE) {
       console.error(
-        `RCTWebView invalid state encountered: ${this.state.loading}`
+        'RCTWebView invalid state encountered: ' + this.state.loading
       );
     }
 
@@ -297,7 +281,7 @@ class WebView extends React.Component {
 
     const nativeConfig = this.props.nativeConfig || {};
 
-    let NativeWebView = nativeConfig.component || RNCustomWebView;
+    let NativeWebView = nativeConfig.component || RCTWebView;
 
     const webView = (
       <NativeWebView
@@ -331,8 +315,6 @@ class WebView extends React.Component {
         mixedContentMode={this.props.mixedContentMode}
         saveFormDataDisabled={this.props.saveFormDataDisabled}
         urlPrefixesForDefaultIntent={this.props.urlPrefixesForDefaultIntent}
-        openInternally={this.props.openInternally}
-        toolbarColour={this.props.toolbarColour}
         {...nativeConfig.props}
       />
     );
@@ -412,8 +394,9 @@ class WebView extends React.Component {
     }
   };
 
-  getWebViewHandle = () =>
-    ReactNative.findNodeHandle(this.refs[RCT_WEBVIEW_REF]);
+  getWebViewHandle = () => {
+    return ReactNative.findNodeHandle(this.refs[RCT_WEBVIEW_REF]);
+  };
 
   onLoadingStart = event => {
     const onLoadStart = this.props.onLoadStart;
@@ -450,7 +433,7 @@ class WebView extends React.Component {
   };
 }
 
-const RNCustomWebView = requireNativeComponent(
+const RCTWebView = requireNativeComponent(
   'RNCustomWebView',
   WebView,
   WebView.extraNativeComponentConfig
