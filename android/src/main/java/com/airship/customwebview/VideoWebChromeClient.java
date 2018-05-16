@@ -77,7 +77,7 @@ public class VideoWebChromeClient extends WebChromeClient {
     //mVideoView.setLayoutParams(params);
     getRootView().addView(mVideoView, FULLSCREEN_LAYOUT_PARAMS);
 
-    ((View) mWebView.getRootView()).setVisibility(View.GONE);
+   // ((View) mWebView.getRootView()).setVisibility(View.GONE);
     isVideoFullscreen = true;
   }
 
